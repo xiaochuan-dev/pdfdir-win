@@ -22,8 +22,7 @@
     <Nullable Condition="'$(TargetFramework)' == 'net472'">annotations</Nullable>
     <Nullable Condition="'$(TargetFramework)' == 'net8.0-windows'">enable</Nullable>
 
-    <PublishTrimmed Condition="'$(TargetFramework)' == 'net8.0-windows'">true</PublishTrimmed>
-    <TrimMode Condition="'$(TargetFramework)' == 'net8.0-windows'">full</TrimMode> <!-- 或 link -->
+    <EnableCompressionInSingleFile Condition="'$(TargetFramework)' == 'net8.0-windows'">true</EnableCompressionInSingleFile>
     
     <!-- .NET 8 特性 -->
     <ImplicitUsings Condition="'$(TargetFramework)' == 'net8.0-windows'">enable</ImplicitUsings>
