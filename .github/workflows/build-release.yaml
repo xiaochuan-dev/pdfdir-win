@@ -47,7 +47,7 @@ jobs:
           -r ${{ matrix.runtime }} `
           -o $outputDir `
           --self-contained false `
-          /p:PublishSingleFile=false `
+          /p:PublishSingleFile=true `
           /p:Platform=${{ matrix.platform }}
         
         # 检查是否成功生成文件
