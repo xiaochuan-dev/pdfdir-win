@@ -13,6 +13,16 @@
     <!-- 为不同框架设置条件编译符号 -->
     <DefineConstants Condition="'$(TargetFramework)' == 'net472'">NETFRAMEWORK;NET472</DefineConstants>
     <DefineConstants Condition="'$(TargetFramework)' == 'net8.0-windows'">NET8_0;WINDOWS</DefineConstants>
+    <LangVersion Condition="'$(TargetFramework)' == 'net472'">8.0</LangVersion>
+    <LangVersion Condition="'$(TargetFramework)' == 'net8.0-windows'">latest</LangVersion>
+    
+    <!-- 可空引用类型：.NET Framework 需要特殊处理 -->
+    <Nullable Condition="'$(TargetFramework)' == 'net472'">annotations</Nullable>
+    <Nullable Condition="'$(TargetFramework)' == 'net8.0-windows'">enable</Nullable>
+    
+    <!-- .NET 8 特性 -->
+    <ImplicitUsings Condition="'$(TargetFramework)' == 'net8.0-windows'">enable</ImplicitUsings>
+    <ImplicitUsings Condition="'$(TargetFramework)' == 'net472'">disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
