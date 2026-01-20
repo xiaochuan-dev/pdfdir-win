@@ -1,6 +1,7 @@
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Navigation;
 using System.Collections.ObjectModel;
+using System;
 using System.IO;
 using System.Linq;
 
