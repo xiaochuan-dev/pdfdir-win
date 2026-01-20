@@ -2,73 +2,73 @@
 using System.IO;
 using Microsoft.Win32;
 
-namespace pdfdir_win;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace pdfdir_win
 {
-    public MainViewModel ViewModel => DataContext as MainViewModel;
-    public MainWindow()
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-        this.DataContext = new MainViewModel();
-    }
-    private void SelectFileButton_Click(object sender, RoutedEventArgs e)
-    {
-        var openFileDialog = new OpenFileDialog();
-
-        openFileDialog.Title = "选择文件";
-        openFileDialog.Filter = "所有文件 (*.*)|*.*|文本文件 (*.txt)|*.txt|PDF文件 (*.pdf)|*.pdf";
-        openFileDialog.FilterIndex = 3;
-        openFileDialog.Multiselect = false;
-
-        if (openFileDialog.ShowDialog() == true)
+        public MainViewModel ViewModel => DataContext as MainViewModel;
+        public MainWindow()
         {
-            ViewModel.CurrentFile = new FileInfo(openFileDialog.SafeFileName, openFileDialog.FileName);
+            InitializeComponent();
+            this.DataContext = new MainViewModel();
         }
-    }
-
-    private void WriteButton_Click(object sender, RoutedEventArgs e)
-    {
-        string text = InputTextBox.Text;
-        try
+        private void SelectFileButton_Click(object sender, RoutedEventArgs e)
         {
-            var res = BookChapterParser.Parse(text);
-            if (res.Count != 0)
+            var openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Title = "选择文件";
+            openFileDialog.Filter = "所有文件 (*.*)|*.*|文本文件 (*.txt)|*.txt|PDF文件 (*.pdf)|*.pdf";
+            openFileDialog.FilterIndex = 3;
+            openFileDialog.Multiselect = false;
+
+            if (openFileDialog.ShowDialog() == true)
             {
-                var newBookViewModel = new BookViewModel(res);
-                ViewModel.BookDirectory = newBookViewModel;
+                ViewModel.CurrentFile = new FileInfo(openFileDialog.SafeFileName, openFileDialog.FileName);
+            }
+        }
 
-                var filePath = ViewModel.CurrentFile.Path;
-                var directory = Path.GetDirectoryName(filePath);
-                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
-                var newFileName = $"{fileNameWithoutExtension}_new.pdf";
-                var newFilePath = Path.Combine(directory, newFileName);
-
-                var offset = NumberInput.Value ?? 0;
-                var isOverwrite = EnableCheckBox.IsChecked ?? false;
-
-                if (isOverwrite)
+        private void WriteButton_Click(object sender, RoutedEventArgs e)
+        {
+            string text = InputTextBox.Text;
+            try
+            {
+                var res = BookChapterParser.Parse(text);
+                if (res.Count != 0)
                 {
-                    BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, res, offset);
+                    var newBookViewModel = new BookViewModel(res);
+                    ViewModel.BookDirectory = newBookViewModel;
+
+                    var filePath = ViewModel.CurrentFile.Path;
+                    var directory = Path.GetDirectoryName(filePath);
+                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
+                    var newFileName = $"{fileNameWithoutExtension}_new.pdf";
+                    var newFilePath = Path.Combine(directory, newFileName);
+
+                    var offset = NumberInput.Value ?? 0;
+                    var isOverwrite = EnableCheckBox.IsChecked ?? false;
+
+                    if (isOverwrite)
+                    {
+                        BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, res, offset);
+                    }
+                    else
+                    {
+                        BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, newFilePath, res, offset);
+                    }
+                    MessageBox.Show("写入成功");
                 }
                 else
                 {
-                    BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, newFilePath, res, offset);
+                    MessageBox.Show("提取目录失败，请修改重试");
                 }
-                MessageBox.Show("写入成功");
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("提取目录失败，请修改重试");
+                MessageBox.Show("写入失败，请修改重试");
             }
-        }
-        catch (Exception)
-        {
-            MessageBox.Show("写入失败，请修改重试");
         }
     }
-
 }

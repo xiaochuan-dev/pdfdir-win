@@ -2,12 +2,13 @@
 using System.Data;
 using System.Windows;
 
-namespace pdfdir_win;
-
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
+namespace pdfdir_win
 {
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
+    {
+    }
 }
 
