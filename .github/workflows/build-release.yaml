@@ -23,13 +23,13 @@ jobs:
             platform: x64
             self_contained: false
             single_file: true
-          # .NET 8 - 自包含（大包）
+
           - name: "NET8 SC x64"
             target: net8.0-windows
             runtime: win-x64
             platform: x64
-            self_contained: true
-            single_file: true
+            self_contained: false
+            single_file: false
             
           # .NET Framework 4.7.2
           - name: "NETFX 472"
