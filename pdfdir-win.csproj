@@ -11,6 +11,7 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 
     <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     
     <!-- 为不同框架设置条件编译符号 -->
     <DefineConstants Condition="'$(TargetFramework)' == 'net472'">NETFRAMEWORK;NET472</DefineConstants>
