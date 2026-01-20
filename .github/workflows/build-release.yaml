@@ -1,0 +1,109 @@
+name: WPF Build Artifact
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'  # 根据你的项目调整 .NET 版本
+  CONFIGURATION: 'Release'
+  BUILD_PLATFORM: 'x64'    # 可选：'x86', 'Any CPU', 'x64'
+
+jobs:
+  build-wpf:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        include:
+          - runtime: win-x64
+            platform: x64
+          - runtime: win-x86
+            platform: x86
+          - runtime: win-arm64
+            platform: ARM64
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build WPF project
+      run: |
+        dotnet build `
+          --configuration ${{ env.CONFIGURATION }} `
+          --no-restore `
+          /p:Platform=${{ matrix.platform }}
+    
+    - name: Publish as single file executable
+      run: |
+        # 查找所有 WPF 项目文件
+        $projects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
+          (Get-Content $_.FullName -Raw) -match "UseWPF|Microsoft\.Desktop\.Workload"
+        }
+        
+        foreach ($project in $projects) {
+          $projectName = $project.BaseName
+          $outputDir = "./publish/${{ matrix.runtime }}"
+          
+          # 清理目录
+          Remove-Item -Recurse -Force $outputDir -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Path $outputDir -Force
+          
+          Write-Host "Publishing $projectName for ${{ matrix.runtime }}..."
+          
+          dotnet publish $project.FullName `
+            --configuration ${{ env.CONFIGURATION }} `
+            --runtime ${{ matrix.runtime }} `
+            --self-contained true `
+            --output $outputDir `
+            /p:Platform=${{ matrix.platform }} `
+            /p:PublishSingleFile=true `
+            /p:PublishReadyToRun=true `
+            /p:PublishTrimmed=true `
+            /p:IncludeNativeLibrariesForSelfExtract=true `
+            /p:DebugType=None `
+            /p:DebugSymbols=false `
+            /p:UseAppHost=true `
+            /p:WindowsPackageType=None `
+            /p:IncludeAllContentForSelfExtract=true
+          
+          # 创建版本信息文件
+          $versionInfo = @"
+          Build Information:
+          ==================
+          Project: $projectName
+          Version: ${{ github.sha_short }}
+          Runtime: ${{ matrix.runtime }}
+          Platform: ${{ matrix.platform }}
+          Build Date: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+          .NET Version: ${{ env.DOTNET_VERSION }}
+          Git Commit: ${{ github.sha }}
+          Triggered By: ${{ github.event_name }}
+          "@
+          
+          $versionInfo | Out-File -FilePath "$outputDir/build-info.txt" -Encoding UTF8
+          
+          # 压缩发布文件
+          $zipName = "$projectName-${{ matrix.runtime }}.zip"
+          Compress-Archive -Path "$outputDir/*" -DestinationPath "./$zipName"
+          
+          Write-Host "Created: $zipName"
+        }
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wpf-${{ matrix.runtime }}-${{ github.sha_short }}
+        path: |
+          ./publish/${{ matrix.runtime }}/
+          ./*.zip
+        retention-days: 30  # Artifact 保留 30 天

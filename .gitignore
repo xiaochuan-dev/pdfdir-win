@@ -1,0 +1,196 @@
+## 忽略 Visual Studio 用户特定文件
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## 忽略构建结果
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio 2015 缓存目录
+.vs/
+
+## MSTest 测试结果
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+
+## 项目文件
+*.csproj.user
+*.vbproj.user
+
+## NuGet 包目录
+packages/
+## 如果使用 Paket 而不是 NuGet，取消注释下一行
+# .paket/
+
+## 编译时生成的 NuGet 文件
+*.nuget.props
+*.nuget.targets
+
+## Visual Studio 6 生成临时文件
+*.vbw
+
+## Visual Studio LightSwitch 生成输出
+**/*.HTMLClient/GeneratedArtifacts
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
+_Pvt_Extensions
+
+## Paket 依赖管理文件
+paket-files/
+
+## FAKE 构建系统
+.fake/
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+
+## CodeRush
+.cr/
+
+## Python 用于 Visual Studio 项目
+__pycache__/
+*.pyc
+
+## Cake 构建系统
+tools/
+!tools/packages.config
+
+## Tabs Studio
+*.tss
+
+## Telerik's JustMock 配置
+*.jmconfig
+
+## BizTalk 构建输出
+*.btp.cs
+*.btm.cs
+*.odx.cs
+*.xsd.cs
+
+## OpenCover UI 分析结果
+OpenCover/
+
+## Azure Stream Analytics 本地运行输出
+ASALocalRun/
+
+## MSBuild 二进制和缓存文件
+*.binlog
+msbuild.err
+msbuild.wrn
+
+## NVidia Nsight GPU 调试器配置
+.nsight
+
+## .NET Core 项目
+dotnet-watch.html
+
+## Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## Rider
+.rider/
+
+## Windows 缩略图缓存文件
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+## 文件夹配置文件
+[Dd]esktop.ini
+
+## 回收站文件
+$RECYCLE.BIN/
+
+## Mac 文件
+.DS_Store
+.AppleDouble
+.LSOverride
+
+## Linux 文件
+*~
+
+# 临时文件
+*.tmp
+*.temp
+
+# 操作系统文件
+[Tt]humbs.db
+*.stackdump
+
+# 项目引用文件
+*.shproj
+*.pubxml
+
+# SQL Server 文件
+*.mdf
+*.ldf
+*.ndf
+
+# Business Intelligence 项目
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+
+# Microsoft Fakes
+FakesAssemblies/
+
+# Node.js 工具
+node_modules/
+
+# TypeScript 缓存文件
+*.tsbuildinfo
+
+# Visual Studio 编辑器目录
+.vs/
+
+# 代码分析结果
+CodeAnalysisLog.xml
+*.sap
+
+# VS Code 代码运行器
+.vscode/launch.json
+.vscode/tasks.json
+
+# 本地历史文件
+.history/
+
+# 备份文件
+*.bak
+
+# JetBrains IDE 文件
+.idea/
+*.sln.iml
+
+# .NET 项目特定文件
+appsettings.*.json
+appsettings.json
+!appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+
+# 项目特定文件（根据实际情况调整）
+# 如果你有自定义的配置文件，可以在这里添加
+# !appsettings.Development.json
+# !appsettings.Production.json
