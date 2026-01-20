@@ -9,6 +9,8 @@
     <UseWPF>true</UseWPF>
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+    <InvariantGlobalization>true</InvariantGlobalization>
     
     <!-- 为不同框架设置条件编译符号 -->
     <DefineConstants Condition="'$(TargetFramework)' == 'net472'">NETFRAMEWORK;NET472</DefineConstants>
@@ -24,6 +26,13 @@
     <ImplicitUsings Condition="'$(TargetFramework)' == 'net8.0-windows'">enable</ImplicitUsings>
     <ImplicitUsings Condition="'$(TargetFramework)' == 'net472'">disable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
