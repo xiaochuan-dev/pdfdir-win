@@ -91,6 +91,8 @@ jobs:
         
         # 添加平台
         $parameters += "/p:Platform=${{ matrix.platform }}"
+
+        $parameters += "/p:InvariantGlobalization=true"
         
         # 添加单文件发布（如果是 .NET 8 且启用）
         if ('${{ matrix.single_file }}' -eq 'true') {
