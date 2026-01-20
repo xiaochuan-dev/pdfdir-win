@@ -46,7 +46,8 @@ jobs:
           -c ${{ env.CONFIGURATION }} `
           -r ${{ matrix.runtime }} `
           -o $outputDir `
-          /p:PublishSingleFile=true `
+          --self-contained false `
+          /p:PublishSingleFile=false `
           /p:Platform=${{ matrix.platform }}
         
         # 检查是否成功生成文件
