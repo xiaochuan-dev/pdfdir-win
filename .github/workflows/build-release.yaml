@@ -23,14 +23,6 @@ jobs:
             platform: x64
             self_contained: false
             single_file: true
-            
-          - name: "NET8 FD x86"
-            target: net8.0-windows
-            runtime: win-x86
-            platform: x86
-            self_contained: false
-            single_file: true
-            
           # .NET 8 - 自包含（大包）
           - name: "NET8 SC x64"
             target: net8.0-windows

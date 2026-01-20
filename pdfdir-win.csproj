@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472;net8.0-windows</TargetFramework>
+    <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
     <RootNamespace>pdfdir</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
