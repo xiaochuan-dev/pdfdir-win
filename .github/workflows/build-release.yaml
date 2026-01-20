@@ -94,13 +94,12 @@ jobs:
 
         $parameters += "/p:InvariantGlobalization=true"
 
-        $parameters += "/p:PublishTrimmed=true"
-        $parameters += "/p:TrimMode=link"
-
         
         # 添加单文件发布（如果是 .NET 8 且启用）
         if ('${{ matrix.single_file }}' -eq 'true') {
           $parameters += "/p:PublishSingleFile=true"
+          $parameters += "/p:PublishTrimmed=true"
+          $parameters += "/p:TrimMode=link"
         }
         
         # 为 .NET Framework 添加额外选项
