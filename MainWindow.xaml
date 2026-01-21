@@ -58,11 +58,13 @@
                     
                     <!-- 文本框 -->
                     <TextBox Grid.Row="1"
+                            Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}"
                             x:Name="InputTextBox"
                             Margin="0,0,0,10"
                             AcceptsReturn="True"
                             TextWrapping="Wrap"
-                            VerticalScrollBarVisibility="Auto"/>
+                            VerticalScrollBarVisibility="Auto"
+                            MaxHeight="500"/>
                     
                     <!-- 第三行：多选框和按钮紧挨着 -->
                     <StackPanel Grid.Row="2" 

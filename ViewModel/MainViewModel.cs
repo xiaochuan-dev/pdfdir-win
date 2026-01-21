@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 public class MainViewModel : INotifyPropertyChanged
 {
@@ -31,6 +32,32 @@ public class MainViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+
+    private string _inputText;
+
+    public string InputText
+    {
+        get => _inputText;
+        set
+        {
+            if (_inputText != value)
+            {
+                _inputText = value;
+                OnPropertyChanged();
+                OnInputChanged(value);
+            }
+        }
+    }
+
+    private void OnInputChanged(string newValue)
+    {
+        var res = BookChapterParser.Parse(newValue);
+        if (res.Count != 0)
+        {
+            BookDirectory = new BookViewModel(res);
+        }
+    }
+
     public MainViewModel()
     {
 
