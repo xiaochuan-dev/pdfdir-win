@@ -1,4 +1,4 @@
-name: WPF Build - Complete
+name: WPF Build
 
 on:
   push:
@@ -12,197 +12,30 @@ env:
 jobs:
   build:
     runs-on: windows-latest
-    
-    strategy:
-      matrix:
-        include:
-          # .NET 8 - 框架依赖
-          - name: "NET8 FD x64"
-            target: net8.0-windows
-            runtime: win-x64
-            platform: x64
-            self_contained: false
-            single_file: true
 
-          - name: "NET8 SC x64"
-            target: net8.0-windows
-            runtime: win-x64
-            platform: x64
-            self_contained: false
-            single_file: false
-            
-          # .NET Framework 4.7.2
-          - name: "NETFX 472"
-            target: net472
-            runtime: ""  # 空字符串
-            platform: AnyCPU
-            self_contained: false
-            single_file: false
-    
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
-    - name: Determine output name
-      id: output_name
+    - name: Build
       run: |
-        # 根据配置生成输出目录名称
-        $name = "${{ matrix.target }}"
-        if ('${{ matrix.runtime }}' -ne '') {
-          $name += "-${{ matrix.runtime }}"
-        }
-        if ('${{ matrix.self_contained }}' -eq 'true') {
-          $name += "-sc"
-        } else {
-          $name += "-fd"
-        }
-        echo "output_name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        dotnet publish -c Release -o ./publish-single -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=true -p:SelfContained=false
+        dotnet publish -c Release -o ./publish-multi -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=true -p:SelfContained=false
     
-    - name: Build ${{ matrix.name }}
-      run: |
-        $outputDir = "./dist/${{ steps.output_name.outputs.output_name }}"
-        Remove-Item -Recurse -Force $outputDir -ErrorAction SilentlyContinue
-        New-Item -ItemType Directory -Path $outputDir -Force
-        
-        Write-Host "=== 构建 ${{ matrix.name }} ==="
-        Write-Host "目标框架: ${{ matrix.target }}"
-        Write-Host "输出目录: $outputDir"
-        
-        # 构建命令参数
-        $parameters = @(
-          "publish",
-          "pdfdir-win.csproj",
-          "-c", "${{ env.CONFIGURATION }}",
-          "-f", "${{ matrix.target }}",
-          "-o", "$outputDir",
-          "--self-contained", "${{ matrix.self_contained }}"
-        )
-        
-        # 添加运行时标识符（如果是 .NET 8）
-        if ('${{ matrix.runtime }}' -ne '') {
-          $parameters += "-r"
-          $parameters += "${{ matrix.runtime }}"
-        }
-        
-        # 添加平台
-        $parameters += "/p:Platform=${{ matrix.platform }}"
-
-        $parameters += "/p:InvariantGlobalization=true"
-
-        
-        # 添加单文件发布（如果是 .NET 8 且启用）
-        if ('${{ matrix.single_file }}' -eq 'true') {
-          $parameters += "/p:PublishSingleFile=true"
-        }
-        
-        # 为 .NET Framework 添加额外选项
-        if ('${{ matrix.target }}' -like 'net4*') {
-          # .NET Framework 可能需要这些选项
-          $parameters += "/p:GenerateAssemblyInfo=false"
-          $parameters += "/p:GeneratePackageOnBuild=false"
-        }
-        
-        Write-Host "执行命令: dotnet $($parameters -join ' ')"
-        
-        # 执行构建
-        & dotnet $parameters
-        
-        # 验证输出
-        if ('${{ matrix.single_file }}' -eq 'true') {
-          $expectedFile = if ('${{ matrix.target }}' -like 'net4*') {
-            "*.exe"  # .NET Framework 的 exe 文件
-          } else {
-            "*.exe"  # .NET 8 的单文件 exe
-          }
-        } else {
-          $expectedFile = if ('${{ matrix.target }}' -like 'net4*') {
-            "*.exe"  # .NET Framework 的主 exe
-          } else {
-            "pdfdir-win.dll"  # .NET 8 的 dll 文件
-          }
-        }
-        
-        $files = Get-ChildItem $outputDir -Filter $expectedFile
-        if ($files.Count -gt 0) {
-          Write-Host "✅ 构建成功！主要输出文件:"
-          $files | ForEach-Object { Write-Host "  - $($_.Name) ($([math]::Round($_.Length/1MB, 2)) MB)" }
-        } else {
-          Write-Host "⚠️ 警告：未找到预期的输出文件"
-          Write-Host "目录内容:"
-          Get-ChildItem $outputDir | ForEach-Object { 
-            $sizeMB = [math]::Round($_.Length/1MB, 2)
-            Write-Host "  - $($_.Name) ($sizeMB MB)" 
-          }
-        }
-        
-        # 显示目录大小
-        $dirSize = (Get-ChildItem $outputDir -Recurse | Measure-Object Length -Sum).Sum / 1MB
-        Write-Host "总输出大小: $([math]::Round($dirSize, 2)) MB"
-    
-    - name: Upload artifact - ${{ matrix.name }}
+    - name: Upload artifact single
       uses: actions/upload-artifact@v4
       with:
-        name: pdfdir-${{ matrix.name }}
-        path: ./dist/${{ steps.output_name.outputs.output_name }}/
+        name: pdfdir-single
+        path: ./publish-single/
         retention-days: 30
-
-  summary:
-    runs-on: windows-latest
-    name: Build Summary
-    needs: build
-    if: always()
-    
-    steps:
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
+    - name: Upload artifact multi
+      uses: actions/upload-artifact@v4
       with:
-        path: ./all-artifacts
-    
-    - name: Show build summary
-      run: |
-        Write-Host "=== 构建汇总 ==="
-        Write-Host ""
-        
-        $artifacts = Get-ChildItem ./all-artifacts -Directory
-        foreach ($artifact in $artifacts) {
-          $name = $artifact.Name
-          $size = [math]::Round((Get-ChildItem $artifact.FullName -Recurse | Measure-Object Length -Sum).Sum / 1MB, 2)
-          
-          # 判断构建类型
-          if ($name -like "*net8*sc*") {
-            $type = ".NET 8 自包含"
-            $color = "Yellow"
-          } elseif ($name -like "*net8*fd*") {
-            $type = ".NET 8 框架依赖"
-            $color = "Green"
-          } elseif ($name -like "*net4*") {
-            $type = ".NET Framework 4.7.2"
-            $color = "Cyan"
-          } else {
-            $type = "未知"
-            $color = "Gray"
-          }
-          
-          Write-Host "$type" -NoNewline -ForegroundColor $color
-          Write-Host " - $name ($size MB)"
-          
-          # 显示主要文件
-          $mainFiles = Get-ChildItem $artifact.FullName -Filter *.exe
-          if ($mainFiles.Count -eq 0) {
-            $mainFiles = Get-ChildItem $artifact.FullName -Filter *.dll | Where-Object { $_.Name -like "*pdfdir*" }
-          }
-          
-          if ($mainFiles.Count -gt 0) {
-            foreach ($file in $mainFiles) {
-              Write-Host "  ↳ 主文件: $($file.Name)" -ForegroundColor DarkGray
-            }
-          }
-        }
-        
-        Write-Host ""
-        Write-Host "构建完成！" -ForegroundColor Green
+        name: pdfdir-single
+        path: ./publish-multi/
+        retention-days: 30

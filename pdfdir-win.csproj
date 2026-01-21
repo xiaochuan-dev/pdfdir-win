@@ -2,52 +2,19 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>pdfdir</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-
     <InvariantGlobalization>true</InvariantGlobalization>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-    
-    <!-- 为不同框架设置条件编译符号 -->
-    <DefineConstants Condition="'$(TargetFramework)' == 'net472'">NETFRAMEWORK;NET472</DefineConstants>
-    <DefineConstants Condition="'$(TargetFramework)' == 'net8.0-windows'">NET8_0;WINDOWS</DefineConstants>
-    <LangVersion Condition="'$(TargetFramework)' == 'net472'">8.0</LangVersion>
-    <LangVersion Condition="'$(TargetFramework)' == 'net8.0-windows'">latest</LangVersion>
-    
-    <!-- 可空引用类型：.NET Framework 需要特殊处理 -->
-    <Nullable Condition="'$(TargetFramework)' == 'net472'">annotations</Nullable>
-    <Nullable Condition="'$(TargetFramework)' == 'net8.0-windows'">enable</Nullable>
-
-    <EnableCompressionInSingleFile Condition="'$(TargetFramework)' == 'net8.0-windows'">true</EnableCompressionInSingleFile>
-    
-    <!-- .NET 8 特性 -->
-    <ImplicitUsings Condition="'$(TargetFramework)' == 'net8.0-windows'">enable</ImplicitUsings>
-    <ImplicitUsings Condition="'$(TargetFramework)' == 'net472'">disable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
     <PackageReference Include="itext" Version="9.5.0" />
     <PackageReference Include="itext.bouncy-castle-adapter" Version="9.5.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <PackageReference Include="itext7" Version="9.5.0" />
-    <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.5.0" />
   </ItemGroup>
 
 </Project>
