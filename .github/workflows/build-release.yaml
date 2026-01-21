@@ -21,6 +21,7 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+        cache: true
     
     - name: Build
       run: |
@@ -36,6 +37,6 @@ jobs:
     - name: Upload artifact multi
       uses: actions/upload-artifact@v4
       with:
-        name: pdfdir-single
+        name: pdfdir-multi
         path: ./publish-multi/
         retention-days: 30
