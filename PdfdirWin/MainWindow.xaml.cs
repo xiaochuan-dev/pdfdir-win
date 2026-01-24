@@ -4,7 +4,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.Windows.Controls;
 
-namespace pdfdir_win;
+namespace PdfdirWin;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
@@ -42,7 +42,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void WriteButton_Click(object sender, RoutedEventArgs e)
+    private void WriteButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -57,11 +57,11 @@ public partial class MainWindow : Window
 
             if (isOverwrite)
             {
-                await BookChapterExporter.WriteChaptersToPdfAsync(ViewModel.CurrentFile.Path, ViewModel.BookDirectory.Chapters, offset);
+                BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, ViewModel.BookDirectory.Chapters, offset);
             }
             else
             {
-                await BookChapterExporter.WriteChaptersToPdfAsync(ViewModel.CurrentFile.Path, newFilePath, ViewModel.BookDirectory.Chapters, offset);
+                BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, newFilePath, ViewModel.BookDirectory.Chapters, offset);
             }
             MessageBox.Show("写入成功");
         }

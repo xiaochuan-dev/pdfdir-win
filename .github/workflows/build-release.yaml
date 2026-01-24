@@ -24,8 +24,8 @@ jobs:
     
     - name: Build
       run: |
-        dotnet publish -c Release -o ./publish-single -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=true -p:SelfContained=false
-        dotnet publish -c Release -o ./publish-multi -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=false -p:SelfContained=false
+        dotnet publish .\PdfdirWin\PdfdirWin.csproj -c Release -o ./publish-single -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=true -p:SelfContained=false
+        dotnet publish .\PdfdirWin\PdfdirWin.csproj -c Release -o ./publish-multi -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=false -p:SelfContained=false
     
     - name: Upload artifact single
       uses: actions/upload-artifact@v4

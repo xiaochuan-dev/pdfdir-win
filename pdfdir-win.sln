@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdfdir-win", "pdfdir-win.csproj", "{F5FACF23-3996-416C-A16A-97A0ADD283AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfdirWin", "PdfdirWin\PdfdirWin.csproj", "{B10D4925-075B-4613-9A5B-96BBC776DDC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfdirWin.Test", "PdfdirWin.Test\PdfdirWin.Test.csproj", "{5E467F3A-B3A9-410D-A24E-399E19FD4209}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +16,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F5FACF23-3996-416C-A16A-97A0ADD283AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5FACF23-3996-416C-A16A-97A0ADD283AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5FACF23-3996-416C-A16A-97A0ADD283AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5FACF23-3996-416C-A16A-97A0ADD283AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B10D4925-075B-4613-9A5B-96BBC776DDC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10D4925-075B-4613-9A5B-96BBC776DDC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B10D4925-075B-4613-9A5B-96BBC776DDC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B10D4925-075B-4613-9A5B-96BBC776DDC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E467F3A-B3A9-410D-A24E-399E19FD4209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E467F3A-B3A9-410D-A24E-399E19FD4209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E467F3A-B3A9-410D-A24E-399E19FD4209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E467F3A-B3A9-410D-A24E-399E19FD4209}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

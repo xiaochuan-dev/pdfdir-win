@@ -3,11 +3,12 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <RootNamespace>pdfdir</RootNamespace>
+    <RootNamespace>PdfdirWin</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <NoWarn>$(NoWarn);CS8602;CS8603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

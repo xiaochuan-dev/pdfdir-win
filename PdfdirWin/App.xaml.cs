@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace pdfdir_win;
+namespace PdfdirWin;
 
 /// <summary>
 /// Interaction logic for App.xaml
