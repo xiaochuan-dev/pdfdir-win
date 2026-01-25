@@ -9,10 +9,10 @@ public class BookChapterParser
     {
         var chapters = new ObservableCollection<BookChapter>();
         var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-        
+
         // 存储每一行的缩进空格数
         List<int> indentLevels = new List<int>();
-        
+
         // 第一遍：计算每行的缩进空格数
         foreach (var line in lines)
         {
@@ -21,7 +21,7 @@ public class BookChapterParser
                 indentLevels.Add(-1); // 空行的标记
                 continue;
             }
-            
+
             int spaces = 0;
             foreach (char c in line)
             {
@@ -40,7 +40,7 @@ public class BookChapterParser
             }
             indentLevels.Add(spaces);
         }
-        
+
         // 第二遍：建立树形结构
         var stack = new Stack<(BookChapter chapter, int spaces)>();
 
@@ -53,7 +53,7 @@ public class BookChapterParser
                 continue;
 
             int currentSpaces = indentLevels[i];
-            
+
             var (title, pageNumber) = ParseLine(trimmedLine);
             BookChapter chapter = new BookChapter
             {
@@ -71,7 +71,7 @@ public class BookChapterParser
             {
                 // 寻找合适的父节点
                 var parentSpaces = stack.Peek().spaces;
-                
+
                 if (currentSpaces > parentSpaces)
                 {
                     // 缩进增加，是子节点
@@ -101,7 +101,7 @@ public class BookChapterParser
                     {
                         stack.Pop();
                     }
-                    
+
                     if (stack.Count > 0)
                     {
                         var parent = stack.Peek().chapter;

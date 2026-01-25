@@ -65,9 +65,9 @@ public partial class MainWindow : Window
             }
             MessageBox.Show("写入成功");
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            MessageBox.Show("写入失败，请修改重试");
+            MessageBox.Show($"写入失败，请修改重试\n错误信息：{ex.Message}");
         }
     }
 }

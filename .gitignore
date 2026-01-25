@@ -194,3 +194,5 @@ appsettings.Production.json
 # 如果你有自定义的配置文件，可以在这里添加
 # !appsettings.Development.json
 # !appsettings.Production.json
+
+*.log

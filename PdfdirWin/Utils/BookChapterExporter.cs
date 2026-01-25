@@ -29,7 +29,7 @@ public class BookChapterExporter
     public static void WriteChaptersToPdf(string path, ObservableCollection<BookChapter> chapters, int offset)
     {
         string tempFile = GetTempFilePath(path);
-        
+
         try
         {
             using (PdfReader reader = new PdfReader(path))
@@ -51,7 +51,7 @@ public class BookChapterExporter
             throw;
         }
     }
-    
+
     /// <summary>
     /// 获取临时文件路径
     /// </summary>
@@ -60,10 +60,10 @@ public class BookChapterExporter
         string directory = Path.GetDirectoryName(originalPath);
         string fileName = Path.GetFileNameWithoutExtension(originalPath);
         string extension = Path.GetExtension(originalPath);
-        
+
         // 生成唯一的临时文件名
         string tempName = $"{fileName}_temp_{Guid.NewGuid():N}{extension}";
-        
+
         return Path.Combine(directory ?? Path.GetTempPath(), tempName);
     }
 
@@ -108,7 +108,7 @@ public class BookChapterExporter
     {
         var catalog = pdfDoc.GetCatalog();
         var outlinesDict = catalog.GetPdfObject().GetAsDictionary(PdfName.Outlines);
-        
+
         if (outlinesDict != null)
         {
             // 移除整个书签结构
