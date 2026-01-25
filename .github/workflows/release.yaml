@@ -22,12 +22,10 @@ jobs:
     
     - name: Build
       run: |
-        dotnet publish .\PdfdirWin\PdfdirWin.csproj -c Release -o ./WinPdfdir-single -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=true -p:SelfContained=false
-        dotnet publish .\PdfdirWin\PdfdirWin.csproj -c Release -o ./WinPdfdir-multi -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=false -p:SelfContained=false
+        dotnet publish .\PdfdirWin\PdfdirWin.csproj -c Release -o ./WinPdfdir -p:DebugType=none -p:DebugSymbols=false -p:PublishSingleFile=true -p:SelfContained=false
     - name: zip
       run: |
-        Compress-Archive -Path ./WinPdfdir-single/* -DestinationPath ./WinPdfdir-single.zip -Force
-        Compress-Archive -Path ./WinPdfdir-multi/* -DestinationPath ./WinPdfdir-multi.zip -Force
+        Compress-Archive -Path ./WinPdfdir/* -DestinationPath ./WinPdfdir.zip -Force
     
     - name: Create Release
       uses: softprops/action-gh-release@v2
@@ -37,8 +35,7 @@ jobs:
         body: |
           Release ${{ env.VERSION }}
         files: |
-          ./WinPdfdir-single.zip
-          ./WinPdfdir-multi.zip
+          ./WinPdfdir.zip
 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
