@@ -22,7 +22,14 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
+    - name: setup test
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/xiaochuan-dev/pdf-static/releases/download/0.0.4/file.pdf" -OutFile "$tempPath\file.pdf"
+        Invoke-WebRequest -Uri "https://github.com/xiaochuan-dev/pdf-static/releases/download/0.0.4/data.txt" -OutFile "$tempPath\data.txt"
+        echo "MY_TEST_FILEPATH=$tempPath\file.pdf" >> $env:GITHUB_ENV
+        echo "MY_TEST_DATAPATH=$tempPath\data.txt" >> $env:GITHUB_ENV
     - name: test
+
       run: |
         dotnet test 
 
