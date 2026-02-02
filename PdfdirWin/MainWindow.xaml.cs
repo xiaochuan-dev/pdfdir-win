@@ -42,7 +42,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void WriteButton_Click(object sender, RoutedEventArgs e)
+    private async void WriteButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -57,17 +57,17 @@ public partial class MainWindow : Window
 
             if (isOverwrite)
             {
-                BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, ViewModel.BookDirectory.Chapters, offset);
+                await BookChapterExporter.WriteChaptersToPdfAsync(ViewModel.CurrentFile.Path, ViewModel.BookDirectory.Chapters, offset);
             }
             else
             {
-                BookChapterExporter.WriteChaptersToPdf(ViewModel.CurrentFile.Path, newFilePath, ViewModel.BookDirectory.Chapters, offset);
+                await BookChapterExporter.WriteChaptersToPdfAsync(ViewModel.CurrentFile.Path, newFilePath, ViewModel.BookDirectory.Chapters, offset);
             }
             MessageBox.Show("写入成功");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            MessageBox.Show($"写入失败，请修改重试\n错误信息：{ex.Message}");
+            MessageBox.Show("写入失败，请修改重试");
         }
     }
 }
