@@ -121,7 +121,7 @@ public class BookChapterParser
 
     private static (string title, int? pageNumber) ParseLine(string line)
     {
-        var match = Regex.Match(line, @"^(.+?)(?:\s+(\d+))?$");
+        var match = Regex.Match(line, @"^(.+?)(?:\s+(-?\d+))?$");
 
         if (match.Success)
         {
